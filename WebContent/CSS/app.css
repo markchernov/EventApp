@@ -1,0 +1,60 @@
+/********************************
+Styling exercise for forms
+*********************************/
+
+html {
+	font-family: 'Hind', sans-serif;
+}
+
+.header {
+	background-color: #000;
+	color: #fff;
+	font-weight: 700;
+	text-align: center;
+
+}
+
+
+/********************************
+Error styling
+*********************************/
+
+.error {
+	font-style: italic;
+	color: red;
+	font-weight: 700;
+}
+
+/***************************************
+TABLE
+****************************************/
+
+table#tableList {
+	font-size: 12px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+#tableList td,
+#tableList th {
+	border: 1px solid #ddd;
+	text-align: left;
+	padding: 6px;
+	white-space: nowrap;
+}
+
+#tableList tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#tableList th {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	background-color: #6cb1e0;
+	color: #FFFFFF;
+}
+
+#tableList tr:hover {
+	background-color: #d5e9f6;
+}
