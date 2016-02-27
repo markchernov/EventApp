@@ -1,4 +1,3 @@
-
 onload = function() {
 
 	init(); // onload call init methods
@@ -14,10 +13,15 @@ var init = function() {
 	document.buttonForm.submit.addEventListener("click", getAllEventsFunction);
 
 	document.createForm.submit.addEventListener("click", putNewEventFunction);
-	
-	document.deleteForm.submit.addEventListener("click", deleteOneEventFunction);
-	
-	document.updateForm.submit.addEventListener("click", postUpdateOneEventFunction);
+
+	document.deleteForm.submit
+			.addEventListener("click", deleteOneEventFunction);
+
+	document.updateForm.submit.addEventListener("click",
+			postUpdateOneEventFunction);
+
+	document.populateForm.submit.addEventListener("click",
+			functionToPopulateForm);
 
 	loadDropDown();
 
@@ -156,29 +160,24 @@ var deleteOneEventFunction = function(event) {
 	xhr.onreadystatechange = function() {
 
 		if (xhr.readyState === 4) {
-			
+
 			var eventList = [];
 
 			var tempEvent = JSON.parse(xhr.responseText);
 
 			var convertedEvent = convertDate(tempEvent);
 
-			console.log(convertedEvent  +  "  after delete");
+			console.log(convertedEvent + "  after delete");
 
 			eventList.push(convertedEvent);
 
 			displayEventList(eventList);
 
-			
-
 		}
 	}
-	
+
 	xhr.send();
 };
-
-
-
 
 var postUpdateOneEventFunction = function(event, callback) {
 
@@ -188,7 +187,7 @@ var postUpdateOneEventFunction = function(event, callback) {
 
 	var id = document.updateForm.id.value;
 	var title = document.updateForm.title.value;
-	var description = document.updateForm.description.value; 
+	var description = document.updateForm.description.value;
 	var amount = document.updateForm.amount.value;
 	var category = document.updateForm.category.value;
 	var eventdate = document.updateForm.eventdate.value;
@@ -196,9 +195,7 @@ var postUpdateOneEventFunction = function(event, callback) {
 	var newEvent = {};
 
 	newEvent.id = id;
-	
-	
-	
+
 	newEvent.title = title;
 	newEvent.description = description;
 	newEvent.amount = amount;
@@ -229,7 +226,6 @@ var postUpdateOneEventFunction = function(event, callback) {
 
 			console.log(convertedEvent + " updated event");
 
-
 			eventList.push(convertedEvent);
 
 			displayEventList(eventList);
@@ -239,19 +235,6 @@ var postUpdateOneEventFunction = function(event, callback) {
 	}
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // -------------------------- Utility functions
 // -----------------------------------------------------
@@ -277,14 +260,13 @@ var xhrMethod = function(callback, url) {
 			console.log("my events above this");
 
 			if (response.length > 1) {
-				
-				
+
 				var output = [];
 
 				for (var t = 0; t < response.length; t++) {
 
-				/*	response[t] = convertDate(response[t]);*/
-					
+					/* response[t] = convertDate(response[t]); */
+
 					output.push(convertDate(response[t]));
 
 					console.log(output);
@@ -292,11 +274,11 @@ var xhrMethod = function(callback, url) {
 				}
 
 				console.log("before ");
-				
+
 				console.log(output[0]);
-				
+
 				console.log("after ");
-				
+
 				callback(output);
 			}
 
@@ -457,5 +439,65 @@ var convertDate = function(eventParam) {
 	eventParam.eventdate = dateObj;
 
 	return eventParam;
+
+};
+
+// trying to populate the form to update form with info based on id
+
+var functionToPopulateForm = function(event) {
+
+	console.log(" in populate form");
+
+	event.preventDefault(); // prevent redirect to another page
+
+	var id = document.populateForm.eventForm.value; // grab id from the text box
+
+	console.log(id);
+
+	var url = "rest/event/" + id; // path to my controller
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.open("GET", url);
+
+	xhr.onreadystatechange = function() {
+
+		if (xhr.readyState === 4) {
+
+			var tempEvent = JSON.parse(xhr.responseText);
+
+			var convertedEvent = convertDate(tempEvent);
+
+			var id = convertedEvent.id;
+			var title = convertedEvent.title;
+			var description = convertedEvent.description;
+			var amount = convertedEvent.amount;
+			var category = convertedEvent.category;
+			var eventdate = convertedEvent.eventdate;
+
+			console.log(convertedEvent.title);
+
+			var formID = document.getElementById("id");
+			formID.setAttribute("value", id);
+
+			var formTitle = document.getElementById("title");
+			formTitle.setAttribute("value", title);
+
+			var formDescription = document.getElementById("description");
+			formDescription.setAttribute("value", description);
+
+			var formAmount = document.getElementById("amount");
+			formAmount.setAttribute("value", amount);
+
+			var formCategory = document.getElementById("category");
+			formCategory.setAttribute("value", category);
+
+			var formDate = document.getElementById("eventdate");
+			formDate.setAttribute("value", eventdate);
+
+		}
+	}
+
+	xhr.send();
 
 };
