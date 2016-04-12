@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "events")
+@Table(name = "Events")
 
 @NamedQueries({
 

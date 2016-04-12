@@ -1,8 +1,5 @@
-onload = function() {
 
-	init(); // onload call init methods
-
-};
+	
 
 // assign listeners on-load to buttons
 
@@ -14,16 +11,13 @@ var init = function() {
 
 	document.createForm.submit.addEventListener("click", putNewEventFunction);
 
-	document.deleteForm.submit
-			.addEventListener("click", deleteOneEventFunction);
+	document.deleteForm.submit.addEventListener("click", deleteOneEventFunction);
 
-	document.updateForm.submit.addEventListener("click",
-			postUpdateOneEventFunction);
+	document.updateForm.submit.addEventListener("click", postUpdateOneEventFunction);
 
-	document.populateForm.submit.addEventListener("click",
-			functionToPopulateForm);
+	document.populateForm.submit.addEventListener("click", functionToPopulateForm);
 
-	loadDropDown();
+	
 
 };
 
@@ -246,7 +240,7 @@ var xhrMethod = function(callback, url) {
 	var xhr = new XMLHttpRequest();
 
 	xhr.open('GET', url);
-	xhr.send();
+	
 
 	xhr.onreadystatechange = function() {
 		console.log("IN ONREADY");
@@ -296,6 +290,8 @@ var xhrMethod = function(callback, url) {
 		}
 
 	};
+    
+    xhr.send();
 };
 
 // method to display results in a table
@@ -310,7 +306,7 @@ var displayEventList = function(eventsList) {
 	var tbody = document.createElement('tbody');
 	document.body.appendChild(table);
 	table.appendChild(tbody);
-	for (var i = 0; i <= eventsList.length; i++) {
+	for (var i = 0; i < eventsList.length; i++) {
 		if (i === 0) {
 			var rowOne = document.createElement('tr');
 			tbody.appendChild(rowOne);
@@ -371,30 +367,6 @@ var createHomeButton = function() {
 
 };
 
-// method to populate drop down
-
-var loadDropDown = function() {
-
-	console.log(" Inside loadDropDown function");
-
-	console.log(createDropDown);
-
-	var xhr = new XMLHttpRequest();
-
-	xhr.open("GET", "rest/categories", true);
-
-	xhr.onreadystatechange = function() {
-
-		console.log(xhr.readyState);
-
-		if (xhr.readyState == 4 && xhr.status < 400) {
-			createDropDown(JSON.parse(xhr.responseText));
-
-		}
-	}
-	xhr.send(null);
-
-};
 
 // method to create drop down
 
@@ -425,6 +397,39 @@ var createDropDown = function(eventsList) {
 	localForm.submit.addEventListener("click", getAllEventsByCategory);
 
 };
+
+
+
+
+
+
+
+// method to populate drop down
+
+var loadDropDown = function() {
+
+	console.log(" Inside loadDropDown function");
+
+	console.log(createDropDown);
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.open("GET", "rest/categories");
+
+	xhr.onreadystatechange = function() {
+
+		console.log(xhr.readyState);
+
+		if (xhr.readyState == 4 && xhr.status < 400) {
+			createDropDown(JSON.parse(xhr.responseText));
+
+		}
+	}
+	xhr.send(null);
+
+};
+
+
 
 var convertDate = function(eventParam) {
 
@@ -501,3 +506,14 @@ var functionToPopulateForm = function(event) {
 	xhr.send();
 
 };
+
+window.onload = function() { 
+    
+    console.log("in onload") 
+    
+    init(); // onload call init methods
+
+    loadDropDown();                       
+                           
+};   
+ 
